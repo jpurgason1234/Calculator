@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>All-in-One Stretch Film Tool</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background: #f4f4f4; }
+    .tabs { display: flex; background: #343a40; }
+    .tab { flex: 1; padding: 15px; text-align: center; color: white; cursor: pointer; }
+    .tab.active { background: #007bff; font-weight: bold; }
+    .section { display: none; padding: 20px; background: #fff; min-height: 100vh; }
+    .section.active { display: block; }
+    input, select { width: 100%; padding: 8px; margin: 5px 0 15px; }
+    button { padding: 10px 15px; background: #007bff; color: white; border: none; cursor: pointer; }
+    button:hover { background: #0056b3; }
+    .result { background: #e9f7ef; padding: 10px; margin-top: 10px; border-left: 5px solid #28a745; }
+    label { font-weight: bold; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    td, th { padding: 8px; border: 1px solid #ccc; text-align: center; }
+  </style>
+</head>
+<body>
+
+<div class="tabs">
+  <div class="tab active" onclick="showSection('main')">Stretch Film Calculator</div>
+  <div class="tab" onclick="showSection('reverse')">Reverse Calculator</div>
+  <div class="tab" onclick="showSection('ratio')">Ratio Calculator</div>
+</div>
+
+<div id="main" class="section active">
+  <h2>Stretch Film Calculator</h2>
+  <label>Length (in): <input type="number" id="loadLength" /></label>
+  <label>Width (in): <input type="number" id="loadWidth" /></label>
+  <label>Height (in): <input type="number" id="loadHeight" /></label>
+  <label>Pallets per Day: <input type="number" id="palletsPerDay" /></label>
+  <label><input type="checkbox" id="includeCurrent" checked /> Include Current Film</label>
+  <label><input type="checkbox" id="logSession" /> Log this session</label>
+
+  <h3>Current Film</h3>
+  <label>Film Width: <select id="currentWidth">
+    <option value="20">20"</option><option value="30">30"</option></select></label>
+  <label>Gauge: <input type="number" id="currentGauge" /></label>
+  <label>Wraps: <input type="number" id="currentWraps" /></label>
+  <label>Film Weight (oz): <input type="number" id="currentWeight" /></label>
+  <label>Force to Load (lbs): <input type="number" id="currentForce" /></label>
+
+  <h3>Rapid Technologies Film</h3>
+  <label>Film Width: <select id="compareWidth">
+    <option value="20">20"</option><option value="30">30"</option></select></label>
+  <label>Gauge: <input type="number" id="compareGauge" /></label>
+  <label>Wraps: <input type="number" id="compareWraps" /></label>
+  <label>Film Weight (oz): <input type="number" id="compareWeight" /></label>
+  <label>Force to Load (lbs): <input type="number" id="compareForce" /></label>
+
+  <button onclick="calculateMain()">Calculate</button>
+  <div id="mainResult" class="result" style="display:none;"></div>
+</div>
+
+<div id="reverse" class="section">
+  <h2>Reverse Pre-Stretch Calculator</h2>
+  <label>Length (in): <input type="number" id="revLength" /></label>
+  <label>Width (in): <input type="number" id="revWidth" /></label>
+  <label>Wraps: <input type="number" id="revWraps" /></label>
+  <label>Gauge: <input type="number" id="revGauge" /></label>
+  <label>Film Width (in): <input type="number" id="revWidthInches" /></label>
+  <label>Film Weight Used (oz): <input type="number" id="revWeight" /></label>
+  <button onclick="calculateReverse()">Calculate</button>
+  <div id="revResult" class="result" style="display:none;"></div>
+</div>
+
+<div id="ratio" class="section">
+  <h2>Roller & Sprocket Ratio Calculator</h2>
+  <label>Roller 1 Diameter (in/mm): <input type="number" id="roller1" /></label>
+  <label>Sprocket 1 Teeth: <input type="number" id="sprocket1" /></label>
+  <label>Roller 2 Diameter (in/mm): <input type="number" id="roller2" /></label>
+  <label>Sprocket 2 Teeth: <input type="number" id="sprocket2" /></label>
+  <button onclick="calculateRatio()">Calculate</button>
+  <div id="ratioResult" class="result" style="display:none;"></div>
+</div>
+
+<script>
+function showSection(id) {
+  document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+  document.querySelector('.tab[onclick="showSection(\'' + id + '\')"]').classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+function calculateMain() {
+  const includeCurrent = document.getElementById('includeCurrent').checked;
+  const logSession = document.getElementById('logSession').checked;
+
+  const len = parseFloat(document.getElementById('loadLength').value);
+  const wid = parseFloat(document.getElementById('loadWidth').value);
+  const pallets = parseInt(document.getElementById('palletsPerDay').value);
+
+  const current = {
+    width: parseFloat 
