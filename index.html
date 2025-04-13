@@ -1,13 +1,60 @@
+<p><!DOCTYPE html> <html lang=&quot;en&quot;> <head>  <meta charset=&quot;UTF-8&quot; />  <meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;/>  <title>All-in-One Stretch Film Tool</title>  <style>  body { font-family: Arial, sans-serif; margin: 0; background: #f4f4f4; }  .tabs { display: flex; background: #343a40; }  .tab { flex: 1; padding: 15px; text-align: center; color: white; cursor: pointer; }  .tab.active { background: #007bff; font-weight: bold; }  .section { display: none; padding: 20px; background: #fff; min-height: 100vh; }  .section.active { display: block; }  input, select { width: 100%; padding: 8px; margin: 5px 0 15px; }  button { padding: 10px 15px; background: #007bff; color: white; border: none; cursor: pointer; }  button:hover { background: #0056b3; }  .result { background: #e9f7ef; padding: 10px; margin-top: 10px; border-left: 5px solid #28a745; }  label { font-weight: bold; }  table { width: 100%; border-collapse: collapse; margin-top: 10px; }  td, th { padding: 8px; border: 1px solid #ccc; text-align: center; }  </style> </head> <body></p>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>All-in-One Film Calculator</title>
-</head>
-<body>
-  <h1>Stretch Film Calculator</h1>
-  <p>This is the placeholder for the full all-in-one calculator content.</p>
-</body>
-</html>
+<p><div class=&quot;tabs&quot;>  <div class=&quot;tab active&quot; onclick=&quot;showSection('main')&quot;>Stretch Film Calculator</div>  <div class=&quot;tab&quot; onclick=&quot;showSection('reverse')&quot;>Reverse Calculator</div>  <div class=&quot;tab&quot; onclick=&quot;showSection('ratio')&quot;>Ratio Calculator</div> </div></p>
+
+<p><div id=&quot;main&quot; class=&quot;section active&quot;>  <h2>Stretch Film Calculator</h2>    <label>Length (in): <input type=&quot;number&quot; id=&quot;loadLength&quot; /></label>  <label>Width (in): <input type=&quot;number&quot; id=&quot;loadWidth&quot; /></label>  <label>Height (in): <input type=&quot;number&quot; id=&quot;loadHeight&quot; /></label>  <label>Pallets per Day: <input type=&quot;number&quot; id=&quot;palletsPerDay&quot; /></label>  <label><input type=&quot;checkbox&quot; id=&quot;includeCurrent&quot; checked /> Include Current Film</label>  <label><input type=&quot;checkbox&quot; id=&quot;logSession&quot; /> Log this session</label></p>
+
+<p> <h3>Current Film</h3>  <label>Film Width: <select id=&quot;currentWidth&quot;>  <option value=&quot;20&quot;>20&quot;</option><option value=&quot;30&quot;>30&quot;</option></select></label>  <label>Gauge: <input type=&quot;number&quot; id=&quot;currentGauge&quot; /></label>  <label>Wraps: <input type=&quot;number&quot; id=&quot;currentWraps&quot; /></label>  <label>Film Weight (oz): <input type=&quot;number&quot; id=&quot;currentWeight&quot; /></label>  <label>Force to Load (lbs): <input type=&quot;number&quot; id=&quot;currentForce&quot; /></label></p>
+
+<p> <h3>Rapid Technologies Film</h3>  <label>Film Width: <select id=&quot;compareWidth&quot;>  <option value=&quot;20&quot;>20&quot;</option><option value=&quot;30&quot;>30&quot;</option></select></label>  <label>Gauge: <input type=&quot;number&quot; id=&quot;compareGauge&quot; /></label>  <label>Wraps: <input type=&quot;number&quot; id=&quot;compareWraps&quot; /></label>  <label>Film Weight (oz): <input type=&quot;number&quot; id=&quot;compareWeight&quot; /></label>  <label>Force to Load (lbs): <input type=&quot;number&quot; id=&quot;compareForce&quot; /></label></p>
+
+<p> <button onclick=&quot;calculateMain()&quot;>Calculate</button>  <div id=&quot;mainResult&quot; class=&quot;result&quot; style=&quot;display:none;&quot;></div>   </div></p>
+
+<p><div id=&quot;reverse&quot; class=&quot;section&quot;>  <h2>Reverse Pre-Stretch Calculator</h2>  <label>Length (in): <input type=&quot;number&quot; id=&quot;revLength&quot; /></label>  <label>Width (in): <input type=&quot;number&quot; id=&quot;revWidth&quot; /></label>  <label>Wraps: <input type=&quot;number&quot; id=&quot;revWraps&quot; /></label>  <label>Gauge: <input type=&quot;number&quot; id=&quot;revGauge&quot; /></label>  <label>Film Width (in): <input type=&quot;number&quot; id=&quot;revWidthInches&quot; /></label>  <label>Film Weight Used (oz): <input type=&quot;number&quot; id=&quot;revWeight&quot; /></label>  <button onclick=&quot;calculateReverse()&quot;>Calculate</button>  <div id=&quot;revResult&quot; class=&quot;result&quot; style=&quot;display:none;&quot;></div> </div></p>
+
+<p><div id=&quot;ratio&quot; class=&quot;section&quot;>  <h2>Roller &amp; Sprocket Ratio Calculator</h2>  <label>Roller 1 Diameter (in/mm): <input type=&quot;number&quot; id=&quot;roller1&quot; /></label>  <label>Sprocket 1 Teeth: <input type=&quot;number&quot; id=&quot;sprocket1&quot; /></label>  <label>Roller 2 Diameter (in/mm): <input type=&quot;number&quot; id=&quot;roller2&quot; /></label>  <label>Sprocket 2 Teeth: <input type=&quot;number&quot; id=&quot;sprocket2&quot; /></label>  <button onclick=&quot;calculateRatio()&quot;>Calculate</button>  <div id=&quot;ratioResult&quot; class=&quot;result&quot; style=&quot;display:none;&quot;></div> </div></p>
+
+<p><script> function showSection(id) {  document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));  document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));  document.querySelector('.tab[onclick=&quot;showSection(\'' + id + '\')&quot;]').classList.add('active');  document.getElementById(id).classList.add('active'); }</p>
+
+<p>function calculateReverse() {  const len = parseFloat(document.getElementById(&quot;revLength&quot;).value);  const wid = parseFloat(document.getElementById(&quot;revWidth&quot;).value);  const wraps = parseFloat(document.getElementById(&quot;revWraps&quot;).value);  const gauge = parseFloat(document.getElementById(&quot;revGauge&quot;).value);  const width = parseFloat(document.getElementById(&quot;revWidthInches&quot;).value);  const weight = parseFloat(document.getElementById(&quot;revWeight&quot;).value);  if ([len, wid, wraps, gauge, width, weight].some(isNaN)) {  alert(&quot;Please fill out all fields.&quot;);  return;  }  const perimeter = 2 * (len + wid);  const appliedFeet = (perimeter * wraps) / 12;  const constant = gauge >= 80 ? 0.064 : gauge >= 70 ? 0.100 : 0.105;  const ozPerFoot = (gauge / 1000) * width * constant;  const rollFeet = weight / ozPerFoot;  const stretchRatio = appliedFeet / rollFeet;  const preStretch = (stretchRatio - 1) * 100;</p>
+
+<p> document.getElementById(&quot;revResult&quot;).style.display = &quot;block&quot;;  document.getElementById(&quot;revResult&quot;).innerHTML = &#96;  Applied Film: ${appliedFeet.toFixed(2)} ft<br/>  Film from Roll: ${rollFeet.toFixed(2)} ft<br/>  Stretch Ratio: 1 ft &rarr; ${stretchRatio.toFixed(2)} ft<br/>  Pre-Stretch: ${preStretch.toFixed(1)}%  &#96;; }</p>
+
+<p>function calculateRatio() {  const r1 = parseFloat(document.getElementById('roller1').value);  const r2 = parseFloat(document.getElementById('roller2').value);  const s1 = parseFloat(document.getElementById('sprocket1').value);  const s2 = parseFloat(document.getElementById('sprocket2').value);  if ([r1, r2, s1, s2].some(isNaN) || r1 === 0 || s2 === 0) {  alert(&quot;Please enter valid values.&quot;);  return;  }  const stretchRatio = (r2 / r1) * (s1 / s2);  const preStretch = (stretchRatio - 1) * 100;</p>
+
+<p> document.getElementById(&quot;ratioResult&quot;).style.display = &quot;block&quot;;  document.getElementById(&quot;ratioResult&quot;).innerHTML = &#96;  Stretch Ratio: 1 ft &rarr; ${stretchRatio.toFixed(2)} ft<br/>  Pre-Stretch: ${preStretch.toFixed(1)}%  &#96;; }</p>
+
+<p>function calculateMain() {  const includeCurrent = document.getElementById('includeCurrent').checked;  const logSession = document.getElementById('logSession').checked;</p>
+
+<p> const len = parseFloat(document.getElementById('loadLength').value);  const wid = parseFloat(document.getElementById('loadWidth').value);  const pallets = parseInt(document.getElementById('palletsPerDay').value);</p>
+
+<p> const current = {  width: parseFloat(document.getElementById('currentWidth').value),  gauge: parseFloat(document.getElementById('currentGauge').value),  wraps: parseFloat(document.getElementById('currentWraps').value),  weight: parseFloat(document.getElementById('currentWeight').value),  force: parseFloat(document.getElementById('currentForce').value)  };</p>
+
+<p> const compare = {  width: parseFloat(document.getElementById('compareWidth').value),  gauge: parseFloat(document.getElementById('compareGauge').value),  wraps: parseFloat(document.getElementById('compareWraps').value),  weight: parseFloat(document.getElementById('compareWeight').value),  force: parseFloat(document.getElementById('compareForce').value)  };</p>
+
+<p> if ([len, wid, pallets, ...Object.values(compare)].some(isNaN) || (includeCurrent &amp;&amp; Object.values(current).some(isNaN))) {  alert(&quot;Please fill in all required fields.&quot;);  return;  }</p>
+
+<p> const perimeter = 2 * (len + wid);  const appliedCurrent = includeCurrent ? (perimeter * current.wraps) / 12 : 0;  const appliedCompare = (perimeter * compare.wraps) / 12;</p>
+
+<p> const estimateFeet = (weightOz, gauge, widthInches) => {  let constant = 0.1095;  if (gauge >= 80) constant = 0.064;  else if (gauge >= 70) constant = 0.100;  else if (gauge >= 60) constant = 0.105;  const ozPerFoot = (gauge / 1000) * widthInches * constant;  return weightOz / ozPerFoot;  };</p>
+
+<p> const rollCurrent = includeCurrent ? estimateFeet(current.weight, current.gauge, current.width) : 0;  const rollCompare = estimateFeet(compare.weight, compare.gauge, compare.width);</p>
+
+<p> const stretchCurrent = includeCurrent ? appliedCurrent / rollCurrent : 0;  const stretchCompare = appliedCompare / rollCompare;</p>
+
+<p> const actualStretchCurrent = includeCurrent ? ((stretchCurrent - 1) * 100) : 0;  const actualStretchCompare = (stretchCompare - 1) * 100;</p>
+
+<p> const dailyCurrent = includeCurrent ? current.weight * pallets : 0;  const dailyCompare = compare.weight * pallets;  const saved = includeCurrent ? dailyCurrent - dailyCompare : 0;  const savedPercent = includeCurrent ? (saved / dailyCurrent) * 100 : 0;</p>
+
+<p> let html = &#96;<strong>Results</strong><br/><table><tr><th>Metric</th>${includeCurrent ? '<th>Current Film</th>' : ''}<th>Rapid Film</th></tr>&#96;;</p>
+
+<p> if (includeCurrent) {  html += &#96;  <tr><td>Ounces per Wrap</td><td>${(current.weight/current.wraps).toFixed(3)}</td><td>${(compare.weight/compare.wraps).toFixed(3)}</td></tr>  <tr><td>Stretch Ratio</td><td>1 ft &rarr; ${stretchCurrent.toFixed(2)}</td><td>1 ft &rarr; ${stretchCompare.toFixed(2)}</td></tr>  <tr><td>Pre-Stretch (%)</td><td>${actualStretchCurrent.toFixed(1)}%</td><td>${actualStretchCompare.toFixed(1)}%</td></tr>  <tr><td>Daily Usage (oz)</td><td>${dailyCurrent.toFixed(2)}</td><td>${dailyCompare.toFixed(2)}</td></tr>  <tr><td>Daily Material Saved</td><td colspan=&quot;2&quot;>${saved.toFixed(2)} oz (${savedPercent.toFixed(1)}%)</td></tr>  &#96;;  } else {  html += &#96;  <tr><td>Ounces per Wrap</td><td>${(compare.weight/compare.wraps).toFixed(3)}</td></tr>  <tr><td>Stretch Ratio</td><td>1 ft &rarr; ${stretchCompare.toFixed(2)}</td></tr>  <tr><td>Pre-Stretch (%)</td><td>${actualStretchCompare.toFixed(1)}%</td></tr>  <tr><td>Daily Usage (oz)</td><td>${dailyCompare.toFixed(2)}</td></tr>  &#96;;  }</p>
+
+<p> html += &quot;</table>&quot;;  document.getElementById(&quot;mainResult&quot;).style.display = &quot;block&quot;;  document.getElementById(&quot;mainResult&quot;).innerHTML = html;</p>
+
+<p> if (logSession) {  const log = {  timestamp: new Date().toISOString(),  includeCurrent,  load: { len, wid, pallets },  current,  compare,  results: {  stretchCurrent,  stretchCompare,  actualStretchCurrent,  actualStretchCompare,  saved,  savedPercent  }  };  const logs = JSON.parse(localStorage.getItem(&quot;filmLogs&quot;) || &quot;[]&quot;);  logs.push(log);  localStorage.setItem(&quot;filmLogs&quot;, JSON.stringify(logs));  } }</p>
+
+<p></script></p>
+
+<p></body> </html></p>
+
