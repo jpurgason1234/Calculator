@@ -198,7 +198,7 @@ function calculateMain() {
     html += `
       <tr><td>Ounces per Wrap</td><td>${(current.weight/current.wraps).toFixed(3)}</td><td>${(compare.weight/compare.wraps).toFixed(3)}</td></tr>
       <tr><td>Stretch Ratio</td><td>1 ft → ${stretchCurrent.toFixed(2)}</td><td>1 ft → ${stretchCompare.toFixed(2)}</td></tr>
-      <tr><td>Pre-Stretch (%)</td><td>${actualStretchCurrent.toFixed(1)}%</td><td>${actualStretchCompare.toFixed(1)}%</td></tr>
+      <tr><td>Applied-Stretch (%)</td><td>${actualStretchCurrent.toFixed(1)}%</td><td>${actualStretchCompare.toFixed(1)}%</td></tr>
       <tr><td>Daily Usage (oz)</td><td>${dailyCurrent.toFixed(2)}</td><td>${dailyCompare.toFixed(2)}</td></tr>
       <tr><td>Daily Material Saved</td><td colspan="2">${saved.toFixed(2)} oz (${savedPercent.toFixed(1)}%)</td></tr>
     `;
@@ -206,7 +206,7 @@ function calculateMain() {
     html += `
       <tr><td>Ounces per Wrap</td><td>${(compare.weight/compare.wraps).toFixed(3)}</td></tr>
       <tr><td>Stretch Ratio</td><td>1 ft → ${stretchCompare.toFixed(2)}</td></tr>
-      <tr><td>Pre-Stretch (%)</td><td>${actualStretchCompare.toFixed(1)}%</td></tr>
+      <tr><td>Applied-Stretch (%)</td><td>${actualStretchCompare.toFixed(1)}%</td></tr>
       <tr><td>Daily Usage (oz)</td><td>${dailyCompare.toFixed(2)}</td></tr>
     `;
   }
