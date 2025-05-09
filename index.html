@@ -192,7 +192,7 @@ function calculateMain() {
   const saved = includeCurrent ? dailyCurrent - dailyCompare : 0;
   const savedPercent = includeCurrent ? (saved / dailyCurrent) * 100 : 0;
 
-  let html = `<strong>Results</strong><br/><table><tr><th>Metric</th>${includeCurrent ? '<th>Current Film</th>' : ''}<th>Rapid Film</th></tr>`;
+  let html = `<strong>Results</strong><br/><table><tr><th>Metric</th>${includeCurrent ? '<th>Current Film</th>' : ''}<th>New Film</th></tr>`;
 
   if (includeCurrent) {
     html += `
