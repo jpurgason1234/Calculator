@@ -23,53 +23,11 @@
 <body>
 
 <div class="tabs">
-  <div class="tab active" onclick="showSection('main')">Stretch Film Calculator</div>
   <div class="tab" onclick="showSection('reverse')">Reverse Calculator</div>
   <div class="tab" onclick="showSection('ratio')">Ratio Calculator</div>
 </div>
 
-<div id="main" class="section active">
-  <h2>Stretch Film Calculator</h2>
-  
-  <label>Length (in): <input type="number" id="loadLength" /></label>
-  <label>Width (in): <input type="number" id="loadWidth" /></label>
-  <label>Height (in): <input type="number" id="loadHeight" /></label>
-  <label>Pallets per Day: <input type="number" id="palletsPerDay" /></label>
-  <label><input type="checkbox" id="includeCurrent" checked /> Include Current Film</label>
-  <label><input type="checkbox" id="logSession" /> Log this session</label>
-
-  <h3>Current Film</h3>
-  <label>Film Width: <select id="currentWidth">
-    <option value="20">20"</option><option value="30">30"</option></select></label>
-  <label>Gauge: <input type="number" id="currentGauge" /></label>
-  <label>Wraps: <input type="number" id="currentWraps" /></label>
-  <label>Film Weight (oz): <input type="number" id="currentWeight" /></label>
-  <label>Force to Load (lbs): <input type="number" id="currentForce" /></label>
-
-  <h3>New Film</h3>
-  <label>Film Width: <select id="compareWidth">
-    <option value="20">20"</option><option value="30">30"</option></select></label>
-  <label>Gauge: <input type="number" id="compareGauge" /></label>
-  <label>Wraps: <input type="number" id="compareWraps" /></label>
-  <label>Film Weight (oz): <input type="number" id="compareWeight" /></label>
-  <label>Force to Load (lbs): <input type="number" id="compareForce" /></label>
-
-  <button onclick="calculateMain()">Calculate</button>
-  <div id="mainResult" class="result" style="display:none;"></div>
-  
-</div>
-
-<div id="reverse" class="section">
-  <h2>Reverse Pre-Stretch Calculator</h2>
-  <label>Length (in): <input type="number" id="revLength" /></label>
-  <label>Width (in): <input type="number" id="revWidth" /></label>
-  <label>Wraps: <input type="number" id="revWraps" /></label>
-  <label>Gauge: <input type="number" id="revGauge" /></label>
-  <label>Film Width (in): <input type="number" id="revWidthInches" /></label>
-  <label>Film Weight Used (oz): <input type="number" id="revWeight" /></label>
-  <button onclick="calculateReverse()">Calculate</button>
-  <div id="revResult" class="result" style="display:none;"></div>
-</div>
+div>
 
 <div id="ratio" class="section">
   <h2>Roller & Sprocket Ratio Calculator</h2>
