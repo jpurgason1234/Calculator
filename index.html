@@ -1,160 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>All-in-One Stretch Film Tool</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 0; background: #f4f4f4; }
-    .tabs { display: flex; background: #343a40; }
-    .tab { flex: 1; padding: 15px; text-align: center; color: white; cursor: pointer; }
-    .tab.active { background: #007bff; font-weight: bold; }
-    .section { display: none; padding: 20px; background: #fff; min-height: 100vh; }
-    .section.active { display: block; }
-    input, select { width: 100%; padding: 8px; margin: 5px 0 15px; }
-    button { padding: 10px 15px; background: #007bff; color: white; border: none; cursor: pointer; }
-    button:hover { background: #0056b3; }
-    .result { background: #e9f7ef; padding: 10px; margin-top: 10px; border-left: 5px solid #28a745; }
-    label { font-weight: bold; }
-    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    td, th { padding: 8px; border: 1px solid #ccc; text-align: center; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        /* Responsive CSS */
+        body {
+            font-size: 16px;
+            padding: 20px;
+        }
+        @media (max-width: 768px) {
+            body {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+        @media (max-width: 480px) {
+            body {
+                font-size: 12px;
+                padding: 5px;
+            }
+        }
+    </style>
 </head>
 <body>
+    <script>
+        const totalWraps = 10; // Example value
+        const revolutions = 5; // Example value
+        const overlap = 2; // Example value
+        const loadLength = 50; // Example value
 
-<div class="container">
-  <h1>Stretch Film Calculator</h1>
-
-  <div class="input-group">
-    <label for="loadLength">Length of Load (inches):</label>
-    <input type="number" id="loadLength" min="0" step="0.1" value="48">
-  </div>
-
-  <div class="input-group">
-    <label for="loadWidth">Width of Load (inches):</label>
-    <input type="number" id="loadWidth" min="0" step="0.1" value="40">
-  </div>
-
-  <div class="input-group">
-    <label for="loadHeight">Height of Load (inches):</label>
-    <input type="number" id="loadHeight" min="0" step="0.1" value="60">
-  </div>
-
-  <div class="input-group">
-    <label for="overlap">Inches of Overlap (inches):</label>
-    <input type="number" id="overlap" min="0" step="0.1" value="2">
-  </div>
-
-  <div class="input-group">
-    <label>Film Width Selection:</label>
-    <div class="radio-group">
-      <input type="radio" id="film20in" name="filmWidth" value="20in" checked onchange="toggleOuncesPerRevolution()">
-      <label for="film20in">20" Film</label>
-      <input type="radio" id="film30in" name="filmWidth" value="30in" onchange="toggleOuncesPerRevolution()">
-      <label for="film30in">30" Film</label>
-    </div>
-  </div>
-
-  <div class="input-group" id="ouncesPerRevolutionGroup">
-    <label for="ouncesPerRevolution">Ounces per Revolution (for 20" film):</label>
-    <input type="number" id="ouncesPerRevolution" min="0.1" step="0.01" value="0.50">
-    <small>This is the *applied* film weight per revolution (already accounts for pre-stretch).</small>
-    <br>
-    <small>Typical range: 0.42 - 0.50 ounces per revolution.</small>
-  </div>
-
-  <div class="input-group">
-    <label for="preStretchRatio">Wrapper Pre-stretch Ratio (%):</label>
-    <input type="number" id="preStretchRatio" min="200" step="10" value="200">
-  </div>
-
-  <div class="input-group">
-    <label for="totalWraps">Total Wraps (number of rotations):</label>
-    <input type="number" id="totalWraps" min="1" step="1" value="10">
-  </div>
-
-  <button onclick="calculateStretchFilm()">Calculate</button>
-
-  <div class="results">
-    <p>Total Potential Ounces: <span id="totalOuncesDisplay">0.00 ounces</span></p>
-    <p>Applied Stretch Percentage: <span id="appliedStretchPercentageDisplay">0.00%</span></p>
-  </div>
-</div>
-
-<script>
-  const FILM_OUNCES_PER_FOOT_30IN = 0.192; // Example for 30" film
-
-  function calculateStretchFilm() {
-    const loadLength = parseFloat(document.getElementById('loadLength').value);
-    const loadWidth = parseFloat(document.getElementById('loadWidth').value);
-    const loadHeight = parseFloat(document.getElementById('loadHeight').value);
-    const overlap = parseFloat(document.getElementById('overlap').value);
-    const filmWidth = document.querySelector('input[name="filmWidth"]:checked').value;
-    const preStretchRatioRaw = parseFloat(document.getElementById('preStretchRatio').value);
-    const totalWraps = parseFloat(document.getElementById('totalWraps').value);
-
-    function resetResultsDisplay() {
-      document.getElementById('totalOuncesDisplay').textContent = "N/A";
-      document.getElementById('appliedStretchPercentageDisplay').textContent = "N/A";
-    }
-
-    if (isNaN(loadLength) || isNaN(loadWidth) || isNaN(loadHeight) || isNaN(overlap) || isNaN(preStretchRatioRaw) || isNaN(totalWraps) ||
-      loadLength <= 0 || loadWidth <= 0 || loadHeight <= 0 || overlap < 0 || preStretchRatioRaw <= 0 || totalWraps <= 0) {
-      alert("Please enter valid positive numbers for all fields.");
-      resetResultsDisplay();
-      return;
-    }
-
-    const selectedFilmWidthInches = parseFloat(filmWidth.replace('in', ''));
-    if (overlap >= selectedFilmWidthInches) {
-      alert("Overlap cannot be greater than or equal to film width. Please adjust the overlap.");
-      resetResultsDisplay();
-      return;
-    }
-
-    const preStretchRatio = preStretchRatioRaw / 100; // Convert 200% to 2.0
-
-    let totalPotentialOunces;
-
-    if (filmWidth === '20in') {
-      const ouncesPerRevolution = parseFloat(document.getElementById('ouncesPerRevolution').value);
-      if (isNaN(ouncesPerRevolution) || ouncesPerRevolution <= 0) {
-        alert("Please enter a valid positive number for Ounces per Revolution.");
-        resetResultsDisplay();
-        return;
-      }
-      totalPotentialOunces = totalWraps * ouncesPerRevolution;
-    } else {
-      const effectiveHeightPerWrap = selectedFilmWidthInches - overlap;
-      const perimeterFeet = (2 * (loadLength + loadWidth)) / 12;
-      const layersToCoverHeightOnce = loadHeight / effectiveHeightPerWrap;
-      const totalStretchedFilmLength = perimeterFeet * layersToCoverHeightOnce * totalWraps;
-      const totalUnstretchedFilmLength = totalStretchedFilmLength / preStretchRatio;
-      totalPotentialOunces = totalUnstretchedFilmLength * FILM_OUNCES_PER_FOOT_30IN;
-    }
-
-    const appliedStretchPercentage = preStretchRatio * 100 + ((totalWraps * overlap) / loadLength);
-
-    document.getElementById('totalOuncesDisplay').textContent = totalPotentialOunces.toFixed(2) + " ounces";
-    document.getElementById('appliedStretchPercentageDisplay').textContent = appliedStretchPercentage.toFixed(2) + "%";
-  }
-
-  function toggleOuncesPerRevolution() {
-    const filmWidth = document.querySelector('input[name="filmWidth"]:checked').value;
-    const ouncesPerRevolutionGroup = document.getElementById('ouncesPerRevolutionGroup');
-    if (filmWidth === '20in') {
-      ouncesPerRevolutionGroup.style.display = 'block';
-    } else {
-      ouncesPerRevolutionGroup.style.display = 'none';
-    }
-    calculateStretchFilm();
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    toggleOuncesPerRevolution();
-    calculateStretchFilm();
-  });
-</script>
-
+        const appliedStretchPercentage = (totalWraps / revolutions) * (overlap / loadLength) * 100;
+        console.log('Applied Stretch Percentage:', appliedStretchPercentage);
+    </script>
 </body>
 </html>
