@@ -6,95 +6,205 @@
     <title>Stretch Film Calculator</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
         }
         .container {
-            max-width: 600px;
-            margin: auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            max-width: 400px;
+            width: 100%;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .input-group {
+            margin-bottom: 20px;
         }
         label {
             display: block;
-            margin: 10px 0 5px;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
         }
-        input {
+        input[type="number"] {
             width: 100%;
-            padding: 8px;
-            margin-bottom: 15px;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 25px;
         }
         button {
-            padding: 10px 15px;
-            margin-right: 10px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s, transform 0.2s;
+            flex-grow: 1;
+        }
+        #calculateBtn {
+            background-color: #007bff;
+            color: white;
+        }
+        #calculateBtn:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        #resetBtn {
+            background-color: #6c757d;
+            color: white;
+        }
+        #resetBtn:hover {
+            background-color: #5a6268;
+            transform: translateY(-2px);
         }
         .result {
-            margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            background-color: #f9f9f9;
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #e9ecef;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            text-align: center;
+        }
+        .result p {
+            margin: 5px 0;
+            font-size: 16px;
+            color: #495057;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Stretch Film Calculator</h1>
-        <label for="length">Length (in inches):</label>
-        <input type="number" id="length" placeholder="Enter length">
+        
+        <div class="input-group">
+            <label for="loadLength">Length (in inches):</label>
+            <input type="number" id="loadLength" placeholder="e.g., 48">
+        </div>
+        
+        <div class="input-group">
+            <label for="loadWidth">Width (in inches):</label>
+            <input type="number" id="loadWidth" placeholder="e.g., 40">
+        </div>
 
-        <label for="width">Width (in inches):</label>
-        <input type="number" id="width" placeholder="Enter width">
+        <div class="input-group">
+            <label for="loadHeight">Height (in inches):</label>
+            <input type="number" id="loadHeight" placeholder="e.g., 60">
+        </div>
 
-        <label for="height">Height (in inches):</label>
-        <input type="number" id="height" placeholder="Enter height">
+        <div class="input-group">
+            <label for="totalWraps">Total Wraps:</label>
+            <input type="number" id="totalWraps" placeholder="e.g., 5">
+        </div>
 
-        <label for="wraps">Total Wraps:</label>
-        <input type="number" id="wraps" placeholder="Enter total wraps">
+        <div class="input-group">
+            <label for="overlapPercentage">Overlap (in %):</label>
+            <input type="number" id="overlapPercentage" placeholder="e.g., 50">
+        </div>
 
-        <label for="overlap">Overlap (in inches):</label>
-        <input type="number" id="overlap" placeholder="Enter overlap">
-
-        <label for="preStretch">Pre-Stretch Ratio:</label>
-        <input type="number" id="preStretch" placeholder="Enter pre-stretch ratio">
-
-        <button onclick="calculate()">Calculate</button>
-        <button onclick="resetFields()">Reset</button>
+        <div class="input-group">
+            <label for="preStretchRatio">Pre-Stretch Ratio:</label>
+            <input type="number" id="preStretchRatio" placeholder="e.g., 200">
+        </div>
+        
+        <div class="button-group">
+            <button id="calculateBtn">Calculate</button>
+            <button id="resetBtn">Reset</button>
+        </div>
 
         <div class="result" id="results" style="display:none;">
-            <p id="totalOunces">Total Ounces Used: N/A</p>
-            <p id="appliedStretch">Total Applied Stretch: N/A</p>
+            <p id="totalOuncesUsed">Total Ounces Used: N/A</p>
+            <p id="ouncesPerWrap">Ounces Per Wrap: N/A</p>
+            <p id="totalAppliedStretch">Total Applied Stretch: N/A</p>
         </div>
     </div>
 
     <script>
-        function calculate() {
-            const length = parseFloat(document.getElementById('length').value);
-            const width = parseFloat(document.getElementById('width').value);
-            const height = parseFloat(document.getElementById('height').value);
-            const wraps = parseFloat(document.getElementById('wraps').value);
-            const overlap = parseFloat(document.getElementById('overlap').value);
-            const preStretch = parseFloat(document.getElementById('preStretch').value);
+        document.addEventListener('DOMContentLoaded', () => {
+            const calculateBtn = document.getElementById('calculateBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const totalWrapsInput = document.getElementById('totalWraps');
+            const preStretchRatioInput = document.getElementById('preStretchRatio');
+            
+            // Initial setup of event listeners
+            calculateBtn.addEventListener('click', updateResults);
+            resetBtn.addEventListener('click', resetFields);
+            
+            // Listen for input changes in the "Total Wraps" and "Pre-Stretch Ratio" fields
+            totalWrapsInput.addEventListener('input', updateResults);
+            preStretchRatioInput.addEventListener('input', updateResults);
+        });
 
-            if (isNaN(length) || isNaN(width) || isNaN(height) || isNaN(wraps) || isNaN(overlap) || isNaN(preStretch)) {
-                alert('Please fill out all fields with valid numbers.');
+        function updateResults() {
+            const length = parseFloat(document.getElementById('loadLength').value);
+            const width = parseFloat(document.getElementById('loadWidth').value);
+            const height = parseFloat(document.getElementById('loadHeight').value);
+            const wraps = parseFloat(document.getElementById('totalWraps').value);
+            const overlap = parseFloat(document.getElementById('overlapPercentage').value);
+            const preStretch = parseFloat(document.getElementById('preStretchRatio').value);
+            
+            // Check if any of the required fields are empty or invalid
+            const inputs = [length, width, height, wraps, overlap, preStretch];
+            const isValid = inputs.every(input => !isNaN(input) && input >= 0);
+
+            if (!isValid || wraps === 0 || preStretch === 0) {
+                // Hide results and show an alert if inputs are not valid or wraps/preStretch is zero
+                document.getElementById('results').style.display = 'none';
                 return;
             }
 
-            const FILM_OUNCES_PER_FOOT = 0.003; // Example constant (update it based on real data)
-            const totalFeet = (length + width + height) * wraps * (1 - overlap / 100);
-            const totalOunces = totalFeet * FILM_OUNCES_PER_FOOT;
-            const appliedStretch = preStretch * 100;
-
-            document.getElementById('totalOunces').textContent = `Total Ounces Used: ${totalOunces.toFixed(2)} oz`;
-            document.getElementById('appliedStretch').textContent = `Total Applied Stretch: ${appliedStretch.toFixed(2)}%`;
+            const FILM_OUNCES_PER_FOOT = 0.075; // Constant for 84 gauge film
+            const CIRCUMFERENCE = 2 * (length + width); // Circumference in inches
+            
+            // Film consumption formula is now adjusted to account for pre-stretch
+            // Dividing by pre-stretch ratio (e.g., 200% = 2.0)
+            const preStretchRatio = preStretch / 100;
+            const totalFeetUsed = (CIRCUMFERENCE * wraps * (1 + (overlap / 100)) / (12 * preStretchRatio));
+            const totalOuncesUsed = totalFeetUsed * FILM_OUNCES_PER_FOOT;
+            const ouncesPerWrap = totalOuncesUsed / wraps;
+            
+            // Total applied stretch is the pre-stretch ratio plus machine constant
+            const totalAppliedStretch = preStretch * (1 + 0.07);
+            
+            // Update result display
+            document.getElementById('totalOuncesUsed').textContent = `Total Ounces Used: ${totalOuncesUsed.toFixed(1)} oz`;
+            document.getElementById('ouncesPerWrap').textContent = `Ounces Per Wrap: ${ouncesPerWrap.toFixed(2)} oz`;
+            document.getElementById('totalAppliedStretch').textContent = `Total Applied Stretch: ${totalAppliedStretch.toFixed(2)}%`;
+            
             document.getElementById('results').style.display = 'block';
         }
 
         function resetFields() {
-            document.getElementById('length').value = '';
-            document.getElementById('width').value = '';
-            document.getElementById('height').value = '';
-            document.getElementById('wraps').value = '';
-            document.getElementById('overlap').value = '';
-            document.getElementById('preStretch').value = '';
+            document.getElementById('loadLength').value = '';
+            document.getElementById('loadWidth').value = '';
+            document.getElementById('loadHeight').value = '';
+            document.getElementById('totalWraps').value = '';
+            document.getElementById('overlapPercentage').value = '';
+            document.getElementById('preStretchRatio').value = '';
             document.getElementById('results').style.display = 'none';
         }
     </script>
