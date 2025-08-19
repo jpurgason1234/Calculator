@@ -3,33 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Film Calculator</title>
+    <title>Stretch Film Calculator</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 20px;
+            margin: 20px;
         }
-        h1 {
-            font-size: 2em;
+        .container {
+            max-width: 600px;
+            margin: auto;
         }
-        p {
-            font-size: 1.2em;
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+        }
+        button {
+            padding: 10px 15px;
+            margin-right: 10px;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
         }
     </style>
 </head>
 <body>
-    <h1>Film Calculator</h1>
-    <p>Applied Stretch Percentage: <span id="result"></span></p>
+    <div class="container">
+        <h1>Stretch Film Calculator</h1>
+        <label for="length">Length (in inches):</label>
+        <input type="number" id="length" placeholder="Enter length">
+
+        <label for="width">Width (in inches):</label>
+        <input type="number" id="width" placeholder="Enter width">
+
+        <label for="height">Height (in inches):</label>
+        <input type="number" id="height" placeholder="Enter height">
+
+        <label for="wraps">Total Wraps:</label>
+        <input type="number" id="wraps" placeholder="Enter total wraps">
+
+        <label for="overlap">Overlap (in inches):</label>
+        <input type="number" id="overlap" placeholder="Enter overlap">
+
+        <label for="preStretch">Pre-Stretch Ratio:</label>
+        <input type="number" id="preStretch" placeholder="Enter pre-stretch ratio">
+
+        <button onclick="calculate()">Calculate</button>
+        <button onclick="resetFields()">Reset</button>
+
+        <div class="result" id="results" style="display:none;">
+            <p id="totalOunces">Total Ounces Used: N/A</p>
+            <p id="appliedStretch">Total Applied Stretch: N/A</p>
+        </div>
+    </div>
 
     <script>
-        const totalWraps = 10;
-        const revolutions = 5;
-        const overlap = 2;
-        const loadLength = 50;
+        function calculate() {
+            const length = parseFloat(document.getElementById('length').value);
+            const width = parseFloat(document.getElementById('width').value);
+            const height = parseFloat(document.getElementById('height').value);
+            const wraps = parseFloat(document.getElementById('wraps').value);
+            const overlap = parseFloat(document.getElementById('overlap').value);
+            const preStretch = parseFloat(document.getElementById('preStretch').value);
 
-        const appliedStretchPercentage = (totalWraps / revolutions) * (overlap / loadLength) * 100;
-        document.getElementById('result').textContent = appliedStretchPercentage.toFixed(2) + '%';
+            if (isNaN(length) || isNaN(width) || isNaN(height) || isNaN(wraps) || isNaN(overlap) || isNaN(preStretch)) {
+                alert('Please fill out all fields with valid numbers.');
+                return;
+            }
+
+            const FILM_OUNCES_PER_FOOT = 0.003; // Example constant (update it based on real data)
+            const totalFeet = (length + width + height) * wraps * (1 - overlap / 100);
+            const totalOunces = totalFeet * FILM_OUNCES_PER_FOOT;
+            const appliedStretch = preStretch * 100;
+
+            document.getElementById('totalOunces').textContent = `Total Ounces Used: ${totalOunces.toFixed(2)} oz`;
+            document.getElementById('appliedStretch').textContent = `Total Applied Stretch: ${appliedStretch.toFixed(2)}%`;
+            document.getElementById('results').style.display = 'block';
+        }
+
+        function resetFields() {
+            document.getElementById('length').value = '';
+            document.getElementById('width').value = '';
+            document.getElementById('height').value = '';
+            document.getElementById('wraps').value = '';
+            document.getElementById('overlap').value = '';
+            document.getElementById('preStretch').value = '';
+            document.getElementById('results').style.display = 'none';
+        }
     </script>
 </body>
 </html>
