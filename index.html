@@ -1,38 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Film Calculator</title>
+    <title>Film Calculator</title>
     <style>
-        /* Responsive CSS */
         body {
-            font-size: 16px;
+            font-family: Arial, sans-serif;
+            text-align: center;
             padding: 20px;
         }
-        @media (max-width: 768px) {
-            body {
-                font-size: 14px;
-                padding: 10px;
-            }
+        h1 {
+            font-size: 2em;
         }
-        @media (max-width: 480px) {
-            body {
-                font-size: 12px;
-                padding: 5px;
-            }
+        p {
+            font-size: 1.2em;
         }
     </style>
 </head>
 <body>
+    <h1>Film Calculator</h1>
+    <p>Applied Stretch Percentage: <span id="result"></span></p>
+
     <script>
-        const totalWraps = 10; // Example value
-        const revolutions = 5; // Example value
-        const overlap = 2; // Example value
-        const loadLength = 50; // Example value
+        const totalWraps = 10;
+        const revolutions = 5;
+        const overlap = 2;
+        const loadLength = 50;
 
         const appliedStretchPercentage = (totalWraps / revolutions) * (overlap / loadLength) * 100;
-        console.log('Applied Stretch Percentage:', appliedStretchPercentage);
+        document.getElementById('result').textContent = appliedStretchPercentage.toFixed(2) + '%';
     </script>
 </body>
 </html>
